@@ -1,0 +1,3 @@
+# reactjs-netflix-clone
+
+In deze branch (les4) gebruiken studenten props, state en fontawesome-iconen. Met name de props en de state zijn onmisbare onderdelen in React-applicaties en gaan studenten ook nodig hebben bij de uitwerking van de Netflix-applicatie. Deze demo is alleen opgezet om hier inzicht in te geven. De demo is incompleet. De student maakt de applicatie af door het zoekveld werkend te maken. Als er een karakter in het zoekveld wordt gezet, dan moet de output alleen Card-components laten zien die beginnen met die betreffende letter. Na de oefening kan props en state in de eigen realisatie van Netflix-app worden toegepast.
