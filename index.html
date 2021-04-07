@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="output"></div>
+    <script src='apikey.js'></script>
+    <script>
+        let baseURL      = 'https://api.themoviedb.org/3/'
+        let configData   = null;
+        let baseImageURL = null;
+
+        const getConfig = () => {
+            let url = "".concat(baseURL, 'configuration?api_key=', APIKEY);
+            fetch(url)
+            .then((result) => {
+                return result.json();
+            })
+            .then((data) => {
+                baseImageURL = data.images.secure_base_url;
+                configData = data.images;
+                console.log('config: ', data);
+                console.log('config fetched');
+                searchKeyword('jaws');
+            })
+            .catch((err) => {
+                alert(err);
+            });
+        }
+
+        const searchKeyword = (keyword) => {
+            let url = "".concat(baseURL, 'search/movie?api_key=', APIKEY, '&query=', keyword);
+            fetch(url)
+            .then(result => result.json())
+            .then((data) => {
+                document.getElementById('output').innerHTML = "<pre>" + JSON.stringify(data, null, 4) + "</pre>";
+            });
+        }
+
+        const getMostPopular = () => {     // https://api.themoviedb.org/3/movie/top_rated?api_key=<<api_key>>&language=en-US&page=1
+            let url = "".concat(baseURL, 'movie/top_rated?api_key=', APIKEY, '&language=en-US', '&page=1');
+            fetch(url)
+            .then(result => result.json())
+            .then((data) => {
+                data.results.forEach(movie => {
+                    console.log(movie);
+                    
+                    createCard(movie.id, movie.original_title, movie.poster_path);
+                });
+            })
+            .catch((err) => {
+                alert(err);
+            });
+        }
+
+        const createCard = (id, title, image) => {
+            const div   = document.createElement('div');
+            const tnode = document.createTextNode(title);
+            const img   = document.createElement('img');
+            img.src = 'http://image.tmdb.org/t/p/w154' + image;
+            div.appendChild(img);
+            div.appendChild(tnode);
+            div.style = 'width:154px; height:300px;';
+            document.body.appendChild(div);
+        }
+
+        document.addEventListener('DOMContentLoaded', getMostPopular);
+    </script>
+</body>
+</html>
